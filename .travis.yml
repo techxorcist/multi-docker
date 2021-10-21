@@ -1,23 +1,22 @@
 sudo: required
 language: generic
 services:
-  - docker
-
+- docker
 before_install:
-  - docker build -t techxorcist/react-test -f ./client/Dockerfile.dev ./client
-
+- docker build -t techxorcist/react-test -f ./client/Dockerfile.dev ./client
 script:
-  - docker run -e CI=true techxorcist/react-test npm test
-
+- docker run -e CI=true techxorcist/react-test npm test
 after_success:
-  - docker build -t techxorcist/multi-client -f ./client
-  - docker build -t techxorcist/multi-nginx -f ./nginx
-  - docker build -t techxorcist/multi-server -f ./server
-  - docker build -t techxorcist/multi-worker -f ./worker
-  # Log in to the docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  #Push the images to dockerhub
-  - docker push techxorcist/multi-client
-  - docker push techxorcist/multi-nginx
-  - docker push techxorcist/multi-server
-  - docker push techxorcist/multi-worker
+- docker build -t techxorcist/multi-client ./client
+- docker build -t techxorcist/multi-nginx ./nginx
+- docker build -t techxorcist/multi-server ./server
+- docker build -t techxorcist/multi-worker ./worker
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+- docker push techxorcist/multi-client
+- docker push techxorcist/multi-nginx
+- docker push techxorcist/multi-server
+- docker push techxorcist/multi-worker
+env:
+  global:
+  - secure: gyBF46YVjpzXJK25ZMNWFZjs2Qwv4kKVmtUxvoi2vwcOSqcwkZpBSD/3uQThpumlv6m1hnQVCFYhmM+uRE6OE08owx/u9yY6ymBlKJQLnGkXnH/pX4d0phjX/QkhbImqYXZNRhF+2WxAC0Z4Vd1VtiR5T8IH7MY1NN87QHzkUaHeXy2tJAwtb8E5Xp19Tz5AeEzSyT4WmX5ckUibSMAgTPnslj4ynrNxZfaF1T4WLWf2feVjTKiYbOk/BKHYKkeh12eMvWwGxhTheFaRL3mPpEeBAik/GiqjO05p8WyKnOUAy/vSPCqPxPbQLw8hGrxcGNjGDD+1wq1iWoppC2DvAZVsygNTsrRYLAf6f6bdYxHndlVriq4AOAu/w/F706DXQgjLJqejrsipdMlt8oXH0i5JZt0e3JEK+Cym23H4877KnMz7jJNI7y/IJG4FiqTtvN0BBCOYzUFAoyU61XU3kCcbrxQtb+8nlcYvos1dvEVqq350A1XGorxfADtNxZ9LuxkrQ18KJdIoez9ecltDPFe7o/LOnB+OTMAGj2+ZJyPtFQdEFr0tpAWetnewwBV9OR81qZ6MXGcYrpJgYEWhCtb4QQ6QrjfVdQupG0iS+Yrk/KRZN4pabC3bWNF8zemWwRI0e+kMqbMuLDw2fUoPkoppXgdU9ETAm6gme/kwf3I=
+  - secure: LApXHRD1barkrrwJa+EHF3h0UNF7XeMJn+dBD5KQP3GnJJnohv6KDkqVsh9n3uElLFfnCXyxpaYOURSvbsxcsqYE/JE+HDJ1jMMZJa2wsFpsjGmMtWgfotJcdz3Vgfk/o0hC1eWOx27kRfm8Sc/UL45qgLESvZdG06b39OS2DhkLuT/VH9xfj4LrXnhNKbBAAgfT6CL4SeBkvKeV0XsmmgEkgOLd7wCGwh4zjCnS4pWAZ91yBJlsa8+gK9s1isOEOccEFiweb+xYrZLXW3OWpEjOhjyMbOpqNoP2zclb/NZv9jiHIDKNVLY5YdSvGHS3FI3OZVCXUBm+7HD2h+3w8pYy5Sm2oNLmTTU/UUxeDn0VEt5QlNoKMYIwPVqKQV+pWB31s+ZjLNKmXDTbkN2POOcEtjbZQLPRqpeLDN1fdaup7Lqc0f2azW2J7E6KU70qlhNWEnKUYp3b/qUxs6zCfUcbClI6tWqiBDhLJTA9GkrMSUVfPiR8RLd2vPpnPHPFD1FWiFZbdNKihWcFNvQOxAc5DZf2PHZs1kLASJAmv60+2nzBtyCJnT9C5v5KsiRyYKjlw2vgY8cn6Bxyriijw7GM3vezHf1fWIW3ImxVwfzhsEhbbS/dx/q1u7Qgpod6DMsGYTm1n9yZCcci+K5Y5iMetzwL95E+zNxNZFUnjRo=
